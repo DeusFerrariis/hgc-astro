@@ -1,0 +1,67 @@
+---
+export type NavItem = {
+    path: string,
+    title: string,
+}
+
+/**
+ * @param {string} path - defines url to navigate to
+ * @param {string} title - defines label title for NavItem
+ * @returns {NavItem} used by NavBar to define navigation items
+ */
+export const newNavItem = (path: string, title: string): NavItem => {
+    return {path, title}
+}
+
+export interface Props {
+    links: NavItem[];
+}
+
+const { links } = Astro.props as Props;
+---
+
+<ul>
+    {links.map((navItem) => (
+        <Fragment>
+            <li class="grow"><a class="grow" href={navItem.path}>{navItem.title}</a></li>
+        </Fragment>
+    ))}
+</ul>
+
+<style>
+    li {
+        text-decoration: none;
+        list-style-type: none;
+        font-weight: bold;
+        color: white;
+    }
+
+    a {
+        text-decoration: none;
+        color: white;
+    }
+
+    .grow {
+        transition: all .2s ease-in-out;
+    }
+
+    .grow:hover {
+        transform: scale(1.15);
+        text-shadow: 0 0 4px white;
+    }
+
+    ul {
+        margin: 0;
+        padding-left: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: 100%;
+        font-size: 0.7rem;
+    }
+        
+    @media only screen and (min-width: 800px) {
+        ul {
+        }
+    }
+</style>

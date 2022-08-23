@@ -1,6 +1,6 @@
 ---
-import NavBar from "../components/Navbar.astro";
-import { NavItem, newNavItem } from "../components/Navbar.astro";
+import NavMenu from '../components/navigation/NavMenu.svelte'
+import Navbar from '../components/navigation/Navbar.svelte'
 
 export interface Props {
 	title: string;
@@ -8,14 +8,16 @@ export interface Props {
 
 const { title } = Astro.props as Props;
 
-const links: NavItem[] = [
-	newNavItem("/", "Home"),
-	newNavItem("/about/", "About"),
-	newNavItem("/artists/", "Artists"),
-	newNavItem("/news/", "News"),
-	newNavItem("/events/", "Events"),
-	newNavItem("/contact/", "Contact"),
-]
+// const links: NavItem[] = [
+//	newNavItem("/", "Home"),
+//	newNavItem("/about/", "About"),
+//	newNavItem("/artists/", "Artists"),
+//	newNavItem("/news/", "News"),
+//	newNavItem("/events/", "Events"),
+// 	newNavItem("/contact/", "Contact"),
+// ]
+
+let menu = false;
 ---
 
 <!DOCTYPE html>
@@ -28,12 +30,12 @@ const links: NavItem[] = [
 		<title>{title}</title>
 	</head>
 	<body>
-		<div class="navbar-container">
-			<NavBar {links}/>
-		</div>
+		<NavMenu client:load/>
+		<Navbar />
 		<slot />
 	</body>
 </html>
+
 <style>
 	:root {
 		--color-text: hsl(12, 5%, 4%);
@@ -74,19 +76,53 @@ const links: NavItem[] = [
 	}
 
 	.navbar-container {
-		padding: 1rem;
-		display: flex;
 		flex-direction: row;
 		padding-inline: 10%;
+		display: none;
+		height: 0;
+		padding: 0;
+	}
+
+	.navbar-menu {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 100vh;
+		width: 100vw;
+		background-color: #2C3163;
 	}
 
     @media only screen and (min-width: 800px) {
 		.navbar-container {
 			padding: 1rem;
 			display: flex;
+		}
+		.navbar-container {
+			padding: 1rem;
+			display: flex;
 			flex-direction: row;
 			padding-inline: 25%;
 		}
+
+		.navbar-menu-btn {
+			display: none;
+		}
     }
-    
+
+	.navbar-menu-btn {
+		color: white;
+		margin: 0;
+		margin-left: 1rem;
+		padding: .5rem;
+		border-radius: .4rem;
+		font-size: 2rem;
+		background-color: #FA824C;
+		width: min-content;
+		height: min-content;
+		line-height: 1em;
+		--menu-vis: false;
+	}
+
+	.navbar-menu-btn:active {
+	}
 </style>
